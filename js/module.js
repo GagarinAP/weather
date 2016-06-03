@@ -1,37 +1,54 @@
-var module = ( function(){	
+var module1 = ( function(){
+	var z = 100;
+	return {
+		z: z
+	};
+})();
+
+var module = ( function(module1){	
+	console.log(module1.z);
 	var arr = [
+		{
+			pos: "",
+			date: "",
+			humidity: "",
+			temperature: 0,
+			wind: ""
+		}
+	];
+	/*var arr = [
 	{
 		pos: 'Рівне',
-		date: [],
-		humidity: [],		
-		temperature: [],
-		wind: []
+		date: {},
+		humidity: {},		
+		temperature: {},
+		wind: {}
 	},
 	{
 		pos: 'Дубно',
-		date: [],
-		humidity: [],		
-		temperature: [],
-		wind: []
+		date: {},
+		humidity: {},		
+		temperature: {},
+		wind: {}
 	},
 	{
 		pos: 'Костопіль',
-		date: [],
-		humidity: [],		
-		temperature: [],
-		wind: []
+		date: {},
+		humidity: {},		
+		temperature: {},
+		wind: {}
 	},
 	{
 		pos: 'Сарни',
-		date: [],
-		humidity: [],		
-		temperature: [],
-		wind: []
+		date: {},
+		humidity: {},		
+		temperature: {},
+		wind: {}
 	}
-	]; 
+	]; */
 	for(var i = 0; i < arr.length; i++){
 			for(var j = 0; j < 30; j++){
-				var d = new Date(2011, 5, j+1);
+				var d = new Date(20*module1.z, 5, j+1);
 				var options = {				  
 				  year: 'numeric',
 				  month: 'long',
@@ -77,4 +94,4 @@ var module = ( function(){
 		GlobalArray : GlobalArray,
 		searchByName : searchByName
 	}
-})();
+})(module1);
