@@ -4,13 +4,176 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Javascript</title>
+	<title>script</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>	
-	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>    
-    <script src="js/bootstrap.min.js"></script>
+<body>
+<div class="container-fluid">
+	<div class="container">
+	<h1>Модуль статистики погоди</h1>
+	<h2>місто: Рівне, Сарни, Костопіль та Дубно</h2>
+	<hr>
+	<h4>Форма пошуку максимального значення по містах.</h4>
+		<div class="row">					  
+			<div class="col-xs-3">
+			 	<input type="text" class="form-control" placeholder="Місто" id="inputName">	  
+			</div>
+			<div class="col-sm-3">
+			<form>			
+			    <select class="form-control" name="weather">
+			        <option value="1">Вологість</option>
+			        <option value="2">Температура</option>
+			        <option value="3">Вітер</option>        
+			    </select>
+			</form>
+			</div>
+			</form>
+			<button class="btn btn-default" type="submit" onclick="Search()">Пошук макисимуму</button>
+		</div>
+		<hr>
+		<h4>Вся статистика по всіх точках.</h4>
+		<button class="btn btn-default" type="submit" onclick="ShowAll()">Всі точки</button>
+		<div id="ShowAll"></div>
+		<hr>
+		<h4>Середньомісячна статистика по всіх точках.</h4>
+		<button class="btn btn-default" type="submit" onclick="AverageAll()">Показати</button>
+		<div id="AverageResultAll"></div>
+		<hr>
+		<div id="ResultSearchByName"></div>   
+	</div>
+</div>
+	<script>
+		function ShowAll(){
+			var A = module.GlobalArray();			
+			var array = "";			
+			for(var i = 0; i < A.length; i++){				
+				array += '<table class="table table-bordered"><caption>' + '<h1>' + A[i].pos + '</h1>' + '</caption><thead><tr><th>#</th><th>Дата</th><th>Вологість</th><th>Температура</th><th>Вітер</th></tr></thead>';
+				for(var j = 0; j < 30; j++){
+					array += '<tbody><tr><th scope="row">' + (j + 1) + '</th><td>' + A[i].date[j] + '</td><td>' + A[i].humidity[j] + '</td><td>' + A[i].temperature[j] + '</td><td>' + A[i].wind[j] + '</td></tbody>';
+				}
+			}
+			array += '</table>';
+			$('#ShowAll').html(array);
+	    }
+	</script>
+	<script>
+		function Search(){
+			var isname = $('#inputName').val();			
+			var array = "";
+			var form = document.forms[0];
+			var select = form.elements.weather;						
+			var indexposY;
+			var averagewind = [];
+			var a = 0, b = 0, c = 0, d = 0, max = 0;
+			var B = module.GlobalArray();
+			if(isname){			
+					var A = module.searchByName(isname);
+			}
+			if(select.value > 2){
+				for(var i = 0; i < A.length; i++){
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Вітер</th></tr></thead>';	
+				}					
+				for(var i = 0; i < B.length; i++){								
+					for(var j = 0; j < 30; j++){					
+						averagewind.push(B[i].wind[j]);					
+					}								
+				}								
+				for(var j = 0; j < 30; j++){
+					if(averagewind[j] == 'ПнСх'){ 
+						a++;									
+					}else if(averagewind[j] == 'ПдЗх'){
+						b++;
+					}else if(averagewind[j] == 'ПнЗх'){
+						c++;
+					}else if(averagewind[j] == 'ПдСх'){
+						d++;
+					}
+					if(a > b || a > c || a > d){
+						max = 'ПнСх';
+					}else if(c > a || c > b || c > d){
+						max = 'ПнЗх';
+					}else if(d > a || d > b || d > c){
+						max = 'ПдСх';
+					}else if(b > a || b > c || b > d){
+						max = 'ПдЗх';
+					}
+				}				
+				array += '<tbody><tr><td>' + max + '</td></tr></tbody><table>';						
+			} else if (select.value == 2){						
+				for(var i = 0; i < A.length; i++){
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Температура</th></tr></thead>';			
+					for(var j = 0; j < 30; j++){
+						if(A[i].temperature[j] > max){
+							max = A[i].temperature[j];							
+							indexposY = j;							
+						}						
+					}
+					array += '<tbody><tr><td>' + A[i].date[indexposY] + '</td><td>' + max + '</td></tr></tbody><table>';
+				}			
+			} else {				
+				for(var i = 0; i < A.length; i++){		
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Вологість</th></tr></thead>';
+					for(var j = 0; j < 30; j++){
+						if(A[i].humidity[j] > max){
+							max = A[i].humidity[j];							
+							indexposY = j;							
+						}						
+					}
+					array += '<tbody><tr><td>' + A[i].date[indexposY] + '</td><td>' + max + '</td></tr></tbody><table>';
+				}				
+			}			
+			$('#ResultSearchByName').html(array);
+		}
+	</script>
+	<script>
+		function AverageAll(){
+			var A = module.GlobalArray();
+			console.log(A.length);
+			var array = "";	
+			var averagehumidity = 0;
+			var averagetemperature = 0;	
+			var averagewind = [];
+			var a = 0;
+			var b = 0;
+			var c = 0;
+			var d = 0;
+			for(var i = 0; i < A.length; i++){				
+				for(var j = 0; j < 30; j++){
+					averagehumidity += A[i].humidity[j];
+					averagetemperature += A[i].temperature[j];
+					averagewind.push(A[i].wind[j]);					
+				}
+				averagehumidity /= 30;
+				averagetemperature /= 30;				
+			}	
+			var max;	
+			for(var j = 0; j < 30; j++){
+				if(averagewind[j] == 'ПнСх'){ 
+						a++;
+					}else if(averagewind[j] == 'ПдЗх'){
+						b++;
+					}else if(averagewind[j] == 'ПнЗх'){
+						c++;
+					}else if(averagewind[j] == 'ПдСх'){
+						d++;
+					}
+				if(a > b || a > c || a > d){
+					max = 'ПнСх';
+				}else if(c > a || c > b || c > d){
+					max = 'ПнЗх';
+				}else if(d > a || d > b || d > c){
+					max = 'ПдСх';
+				}else if(b > a || b > c || b > d){
+					max = 'ПдЗх';
+				}
+			}	
+			array += '<table class="table table-bordered"><thead><tr><th>Вологість</th><th>Температура</th><th>Вітер</th></tr></thead>';
+			array += '<tbody><tr><td>' + parseInt(averagehumidity) + '</td><td>' + parseInt(averagetemperature) + '</td><td>' + max + '</td></tr></tbody><table>';			
+			$('#AverageResultAll').html(array);
+	    }
+	</script>
+	<script src="js/module.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+	<script src="js/bootstrap.js"></script>	
 </body>
 </html>
