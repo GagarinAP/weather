@@ -47,7 +47,7 @@
 			var A = module.GlobalArray();			
 			var array = "";			
 			for(var i = 0; i < A.length; i++){				
-				array += '<table class="table table-bordered"><caption>' + '<h1>' + A[i].pos + '</h1>' + '</caption><thead><tr><th>#</th><th>Дата</th><th>Вологість</th><th>Температура</th><th>Вітер</th></tr></thead>';
+				array += '<table class="table table-bordered"><caption>' + '<h1>' + A[i].pos + '</h1>' + '</caption><thead><tr><th>#</th><th>Дата</th><th>Вологість (%)</th><th>Температура (&#176;C)</th><th>Вітер (напрям)</th></tr></thead>';
 				for(var j = 0; j < 30; j++){
 					array += '<tbody><tr><th scope="row">' + (j + 1) + '</th><td>' + A[i].date[j] + '</td><td>' + A[i].humidity[j] + '</td><td>' + A[i].temperature[j] + '</td><td>' + A[i].wind[j] + '</td></tbody>';
 				}
@@ -71,7 +71,7 @@
 			}
 			if(select.value > 2){
 				for(var i = 0; i < A.length; i++){
-					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Вітер</th></tr></thead>';	
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Вітер (напрям)</th></tr></thead>';	
 				}					
 				for(var i = 0; i < B.length; i++){								
 					for(var j = 0; j < 30; j++){					
@@ -101,7 +101,7 @@
 				array += '<tbody><tr><td>' + max + '</td></tr></tbody><table>';						
 			} else if (select.value == 2){						
 				for(var i = 0; i < A.length; i++){
-					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Температура</th></tr></thead>';			
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Температура (&#176;C)</th></tr></thead>';			
 					for(var j = 0; j < 30; j++){
 						if(A[i].temperature[j] > max){
 							max = A[i].temperature[j];							
@@ -112,7 +112,7 @@
 				}			
 			} else {				
 				for(var i = 0; i < A.length; i++){		
-					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Вологість</th></tr></thead>';
+					array += '<table class="table table-bordered"><caption><h1>' + A[i].pos + '</h1></caption><thead><tr><th>Дата</th><th>Вологість (%)</th></tr></thead>';
 					for(var j = 0; j < 30; j++){
 						if(A[i].humidity[j] > max){
 							max = A[i].humidity[j];							
@@ -167,7 +167,7 @@
 					max = 'ПдЗх';
 				}
 			}	
-			array += '<table class="table table-bordered"><thead><tr><th>Вологість</th><th>Температура</th><th>Вітер</th></tr></thead>';
+			array += '<table class="table table-bordered"><thead><tr><th>Вологість (%)</th><th>Температура (&#176;C)</th><th>Вітер (напрям)</th></tr></thead>';
 			array += '<tbody><tr><td>' + parseInt(averagehumidity) + '</td><td>' + parseInt(averagetemperature) + '</td><td>' + max + '</td></tr></tbody><table>';			
 			$('#AverageResultAll').html(array);
 	    }
