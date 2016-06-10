@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>script</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">  
+</head>
+<body>
+<div class="container-fluid">
+  <div class="container">    
+    <h1 class="text-center">Модуль статистики погоди</h1>
+    <h2 class="text-center">місто: Рівне, Сарни, Костопіль та Дубно</h2>   
+    <hr>
+    <h4 class="text-center">Форма пошуку максимального значення по містах.</h4>
+      <div class="row">           
+        <div class="col-sm-4 col-xs-12 formpadding">
+          <input type="text" class="form-control" placeholder="Місто" id="inputName">   
+        </div>
+        <div class="col-sm-4 col-xs-12 formpadding">
+          <form>      
+              <select class="form-control" name="weather">
+                  <option value="1">Вологість</option>
+                  <option value="2">Температура</option>
+                  <option value="3">Вітер</option>        
+              </select>
+          </form>
+        </div>
+        <div class="col-sm-4 col-xs-12 formpadding">
+          <button class="btn btn-default" type="submit" onclick="Search()">Пошук макисимуму</button>
+        </div>      
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-5">
+          <h4>Вся статистика по всіх точках.</h4>
+            <button class="btn btn-default" type="submit" onclick="ShowAll()">Всі точки</button>      
+        </div>          
+        <div class="col-md-5 col-md-offset-2">
+          <h4>Середньомісячна статистика по всіх точках.</h4>
+            <button class="btn btn-default" type="submit" onclick="AverageAll()">Показати</button>     
+        </div>
+        <hr>
+      </div>
+
+      <div class="row">
+        <hr>
+        <div class="col-lg-12">       
+          <div id="AverageResultAll"></div>
+          <div id="ShowAll"></div>
+          <div id="ResultSearchByName"></div>
+        </div>
+      </div>      
+</div>  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script type="text/javascript" src="js/module.js"></script>
+  <script type="text/javascript" src="js/show.js"></script>
+  <script src="js/bootstrap.min.js"></script> 
+  <srcipt src="http://underscorejs.ru/underscore.js"></srcipt>
+</body>
+</html>
