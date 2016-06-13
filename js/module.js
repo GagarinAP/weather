@@ -1,6 +1,7 @@
 var module = (function(){
-	var data = a();
-	function a(){
+	var data = __constr();
+
+	function __constr(){
 		var result = [];
 		for(var i = 0; i < 4; i++){
 	        result.push({
@@ -64,6 +65,7 @@ var module = (function(){
 		}		
 		return result;
 	};
+	//Функція підрахунку вітрів, повертає обєкт {NE:17, S:12, SE:11 ...}
 	function counter(arr){
 	    var ret = {};
 	        arr.forEach( function(elem,i,arr){            
@@ -93,11 +95,11 @@ var module = (function(){
 	        result[0] = averagehumidity /= 30;
 	    	result[1] = averagetemperature /= 30;              
 	    }
-
-	    var maxi = counter(averagewind);
-	    for(key in maxi){
-	        if(maxi[key] > max){
-	            max = maxi[key];
+	    //Массив вираховує напрям вітру який частіше за інші дув
+	    var maximumWind = counter(averagewind);
+	    for(key in maximumWind){
+	        if(maximumWind[key] > max){
+	            max = maximumWind[key];
 	            position = key;            
 	        }             
 	    }
@@ -108,27 +110,27 @@ var module = (function(){
     };
     var MaxAndPosition = function(arr){
 		var result=[]		      	  
-      	  , max = 0
-      	  , max1 = 0
-      	  , position1
-      	  , position;      	
+      	  , MaxByHumidity = 0
+      	  , MaxByTemperature = 0
+      	  , PositionByHumidity
+      	  , PositionByTemperature;      	
 
 		for(var i = 0; i < arr.length; i++){        
 	        for(var j = 0; j < 30; j++){
-	        	if(arr[i].humidity[j] > max){
-	        		max = arr[i].humidity[j];
-	        		position = arr[i].datetime[j];
+	        	if(arr[i].humidity[j] > MaxByHumidity){
+	        		MaxByHumidity = arr[i].humidity[j];
+	        		PositionByHumidity = arr[i].datetime[j];
 	        	}
-	        	if(arr[i].temperature[j] > max1){
-	        		max1 = arr[i].temperature[j];
-	        		position1 = arr[i].datetime[j];
+	        	if(arr[i].temperature[j] > MaxByTemperature){
+	        		MaxByTemperature = arr[i].temperature[j];
+	        		PositionByTemperature = arr[i].datetime[j];
 	        	}	          	                   
 	        }	                     
 	    }
-	    result[0] = max;
-	    result[1] = position;  
-	    result[2] = max1;
-	    result[3] = position1;
+	    result[0] = MaxByHumidity;
+	    result[1] = PositionByHumidity;  
+	    result[2] = MaxByTemperature;
+	    result[3] = PositionByTemperature;
 	    
 		return result;
     };
